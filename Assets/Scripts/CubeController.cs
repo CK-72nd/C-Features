@@ -39,5 +39,7 @@ public class CubeController : MonoBehaviour
 
         transform.position = pos;
 
+        //This is adding force to the cube
+
     }
 }
