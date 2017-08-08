@@ -39,7 +39,7 @@ public class CubeController : MonoBehaviour
 
         transform.position = pos;
 
-        //This is adding force to the cube
+        // get component reference for rigidbody2D
 
     }
 }
