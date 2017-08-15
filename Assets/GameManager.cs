@@ -9,8 +9,14 @@ namespace Breakout
 
         public int width = 20;
         public int height = 20;
+        public Vector2 spacing = new Vector2(25f, 10f);
+        public Vector2 offset = new Vector2(25f, 10f);
         public GameObject[] blockPrefabs;
 
+        private GameObject[,] spawnedBlocks;
+
+        [Header("Debug")]
+        public bool isDebugging = false;
 
         // Use this for initialization
         void Start()
@@ -18,8 +24,30 @@ namespace Breakout
             GenerateBlocks();
         }
 
+        void updateBlocks()
+        {
+            //Loop through entire 2D array
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    //update positions
+                    GameObject currentBlock = spawnedBlocks[x, y];
+                    //create a new position
+                    Vector2 pos = new Vector2(x * spacing.x,
+                                              y * spacing.y);
+                    //add an offset to pos
+                    pos += offset;
+                    //set currentBlock position to a new pos
+                    currentBlock.transform.position = pos;
+                   
+                }
+            }
+        }
+
         void GenerateBlocks()
         {
+            spawnedBlocks = new GameObject[width, height];
             // Loop through the width
             for (int x = 0; x < width; x++)
             {
@@ -28,8 +56,11 @@ namespace Breakout
                     // Create new instance of the block
                     GameObject block = GetRandomBlock();
                     // Set the new position
-                    Vector3 pos = new Vector3(x, y, 0);
+                    Vector2 pos = new Vector3(x * spacing.x,
+                                              y * spacing.y);
                     block.transform.position = pos;
+                    //Add spawned blocks to the array
+                    spawnedBlocks[x, y] = block;
                 }
             }
         }
@@ -61,7 +92,10 @@ namespace Breakout
         // Update is called once per frame
         void Update()
         {
-
+            if (isDebugging)
+            {
+                updateBlocks();
+            }
         }
     }
 }
