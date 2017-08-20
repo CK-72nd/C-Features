@@ -50,9 +50,9 @@ namespace Functions
             projectile.transform.position = spawnPointPrefab.transform.position;
             // get projectile rigidbody
             Rigidbody2D projectileRigid = projectile.GetComponent<Rigidbody2D>();
-            projectileRigid.AddForce(transform.right * projectileSpeed);
+            projectileRigid.AddForce(transform.up * projectileSpeed);
             // apply recoil
-            rigid.AddForce(-transform.right * recoil, ForceMode2D.Impulse);
+            rigid.AddForce(-transform.up * recoil, ForceMode2D.Impulse);
         }
 
     }

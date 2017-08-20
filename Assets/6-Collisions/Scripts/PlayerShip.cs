@@ -40,7 +40,7 @@ namespace Collisions
         void Rotate ()
         {
             float inputH = Input.GetAxis("Horizontal");
-            //Vector3.back , angle
+            //Vector3.back, angle
             transform.Rotate(Vector3.back, rotationSpeed * inputH * Time.deltaTime);
         }
     }
