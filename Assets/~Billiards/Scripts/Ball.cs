@@ -6,9 +6,9 @@ namespace Billiards
 {
     public class Ball : MonoBehaviour
     {
-        public float gravity = -9.81f;
-
+        public float stopSpeed = 0.2f;
         private Rigidbody rigid;
+
 
         // Use this for initialization
         void Start()
@@ -16,29 +16,34 @@ namespace Billiards
             rigid = GetComponent<Rigidbody>();
         }
 
-        void OnCollisionEnter(Collision other)
+        void FixedUpdate()
         {
-            Ball ball = other.collider.GetComponent<Ball>();
-            if(ball != null)
+            Vector3 vel = rigid.velocity;
+
+            //if velocity is going up on y
+            if (vel.y > 0 )
             {
-                ball.Activate();
+                //cap it down to zero
+                vel.y = 0;
             }
+
+            if (vel.magnitude < stopSpeed)
+            {
+                vel = Vector3.zero;
+            }
+
+            rigid.velocity = vel;
         }
 
-        public void Activate()
+        public void Hit(Vector3 direction, float speed)
         {
-            rigid.constraints = RigidbodyConstraints.None;
-        }
-
-        public void Deactivate()
-        {
-            rigid.constraints = RigidbodyConstraints.FreezeAll;
+            rigid.AddForce(direction * speed, ForceMode.Impulse);
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        void Update()
         {
-            rigid.velocity = rigid.velocity.normalized + Vector3.back * gravity;
+
         }
     }
 }
